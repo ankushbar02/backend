@@ -37,7 +37,7 @@ const handleErrors = (err) => {
 };
 
 userRouter.post("/login", async (req, res) => {
-  console.log("login");
+  
   try {
     const { userName, password } = req.body;
 
@@ -47,6 +47,7 @@ userRouter.post("/login", async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
         const token = createToken(user._id);
+        console.log(token);
         res
           .cookie("jwt", token, {
             httpOnly: false,
