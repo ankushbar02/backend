@@ -54,7 +54,7 @@ userRouter.post("/login", async (req, res) => {
             maxAge: maxAge * 1000,
             sameSite: 'None', // Allow cross-origin
             secure: true,     // Require HTTPS for cross-origin
-           
+            domain:".https://stickyfrontend.onrender.com"
           })
           .status(201)
           .json({ userID: user._id });
@@ -83,7 +83,7 @@ userRouter.post("/signup", async (req, res) => {
       maxAge: maxAge * 1000,
       sameSite: 'None', // Allow cross-origin
       secure: true, 
-     
+     domain:".https://stickyfrontend.onrender.com"
     });
     res.status(201).json({ userID: user._id });
   } catch (err) {
