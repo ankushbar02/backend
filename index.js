@@ -13,7 +13,7 @@ const app = express();
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
 
-const allowedOrigins = [`${process.env.CLIENT_WEB}`]; // Add other origins as needed
+const allowedOrigins = [`${process.env.CLIENT_WEB}`,"http://localhost:3000"]; // Add other origins as needed
 
 const corsOptions = {
   origin: (origin, callback) => {
