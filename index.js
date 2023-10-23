@@ -9,18 +9,18 @@ import cors from "cors";
 dotenv.config()
 const app = express();
 mongoose.connect(process.env.DB ||"mongodb://localhost:27017/NotesDB");
-const allowedOrigins = [process.env.CLIENT_WEB ||"http://localhost:3000"];
+const allowedOrigins = [process.env.CLIENT_WEB, "http://localhost:3000"];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
-}; 
+};
 
 app.use(cors(corsOptions));
 app.use(cookieParser());
