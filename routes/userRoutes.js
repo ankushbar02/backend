@@ -37,6 +37,7 @@ const handleErrors = (err) => {
 };
 
 userRouter.post("/login", async (req, res) => {
+  console.log("login");
   try {
     const { userName, password } = req.body;
 
