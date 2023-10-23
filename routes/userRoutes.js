@@ -47,7 +47,7 @@ userRouter.post("/login", async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
         const token = createToken(user._id);
-        console.log(token);
+        
         res
           .cookie("jwt", token, {
             httpOnly: false,
@@ -55,6 +55,7 @@ userRouter.post("/login", async (req, res) => {
           })
           .status(201)
           .json({ userID: user._id });
+          console.log(token);
       } else {
         throw new Error("incorrect password");
       }
