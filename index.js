@@ -13,16 +13,20 @@ const app = express();
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
 
-app.use(cors()); // Apply CORS configuration
+const allowedOrigins = [`${process.env.CLIENT_WEB}`]; // Add other origins as needed
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_WEB}`);
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow credentials
+};
 
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
