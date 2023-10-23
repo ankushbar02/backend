@@ -12,13 +12,16 @@ dotenv.config();
 const app = express();
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
-const corsOptions = {
-  origin: process.env.CLIENT_WEB, // This should be the client's URL
-  credentials: true, // Allow credentials (cookies)
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-};
 
-app.use(cors(corsOptions)); // Apply CORS configuration
+app.use(cors()); // Apply CORS configuration
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_WEB}`);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
 app.use(cookieParser());
 app.use(express.json());
