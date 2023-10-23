@@ -55,7 +55,7 @@ userRouter.post("/login", async (req, res) => {
           })
           .status(201)
           .json({ userID: user._id });
-          console.log(token);
+        
       } else {
         throw new Error("incorrect password");
       }
