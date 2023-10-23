@@ -12,7 +12,8 @@ dotenv.config();
 const app = express();
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
-
+app.use(express.json());
+app.use(cookieParser());
 const allowedOrigins = [`${process.env.CLIENT_WEB}`]; // Add other origins as needed
 
 const corsOptions = {
@@ -27,8 +28,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(cookieParser());
-app.use(express.json());
+
+
 
 app.use(userRouter);
 app.use(noteRouter);
