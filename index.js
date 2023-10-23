@@ -14,6 +14,7 @@ mongoose.connect(process.env.DB ||"mongodb://localhost:27017/NotesDB");
 const corsOptions = {
   origin: process.env.CLIENT_WEB,
   credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 };
 
 app.use(cors(corsOptions));
