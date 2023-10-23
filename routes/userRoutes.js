@@ -13,7 +13,6 @@ const createToken = (id) => {
 const handleErrors = (err) => {
   let errors = { email: "", password: "" };
 
-  // console.log(err);
   if (err.message === "incorrect email") {
     errors.email = "Entered email is not registered";
   }
@@ -37,7 +36,6 @@ const handleErrors = (err) => {
 };
 
 userRouter.post("/login", async (req, res) => {
-  
   try {
     const { userName, password } = req.body;
 
@@ -47,18 +45,16 @@ userRouter.post("/login", async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
         const token = createToken(user._id);
-        
+
         res
           .cookie("jwt", token, {
             httpOnly: false,
             maxAge: maxAge * 1000,
-            sameSite: 'None', // Allow cross-origin
-            secure: true,     // Require HTTPS for cross-origin
-          
+            sameSite: "None", // Allow cross-origin
+            secure: true, // Require HTTPS for cross-origin
           })
           .status(201)
           .json({ userID: user._id });
-        
       } else {
         throw new Error("incorrect password");
       }
@@ -81,9 +77,8 @@ userRouter.post("/signup", async (req, res) => {
     res.cookie("jwt", token, {
       httpOnly: false,
       maxAge: maxAge * 1000,
-      sameSite: 'None', // Allow cross-origin
-      secure: true, 
-    
+      sameSite: "None", // Allow cross-origin
+      secure: true, // Require HTTPS for cross-origin
     });
     res.status(201).json({ userID: user._id });
   } catch (err) {
@@ -94,13 +89,12 @@ userRouter.post("/signup", async (req, res) => {
 
 userRouter.post("/", async (req, res) => {
   const token = req.cookies.jwt;
-  // console.log(token);
+
   if (token) {
     jwt.verify(token, "something_fancy_salt", async (err, decodedToken) => {
       if (err) {
         res.json({ status: false });
       } else {
-        // console.log(decodedToken.id);
         const user = await User.findOne({ _id: decodedToken.id });
         if (user) res.json({ status: true, user: user.userName, id: user._id });
         else res.json({ status: false });
