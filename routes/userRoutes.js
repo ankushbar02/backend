@@ -2,10 +2,10 @@ import express from "express";
 import User from "../model/UserModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-
+import dotenv from "dotenv";
 const userRouter = express.Router();
 const maxAge = 3 * 24 * 60 * 60;
-
+dotenv.config();
 const createToken = (id) => {
   return jwt.sign({ id }, "something_fancy_salt", { expiresIn: maxAge });
 };
@@ -52,6 +52,7 @@ userRouter.post("/login", async (req, res) => {
             maxAge: maxAge * 1000,
             sameSite: "None", // Allow cross-origin
             secure: true, // Require HTTPS for cross-origin
+            domain:`${process.env.CLIENT_WEB}`
           })
           .status(201)
           .json({ userID: user._id });
@@ -79,6 +80,7 @@ userRouter.post("/signup", async (req, res) => {
       maxAge: maxAge * 1000,
       sameSite: "None", // Allow cross-origin
       secure: true, // Require HTTPS for cross-origin
+      domain:`${process.env.CLIENT_WEB}`
     });
     res.status(201).json({ userID: user._id });
   } catch (err) {
