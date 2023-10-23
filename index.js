@@ -12,15 +12,15 @@ dotenv.config();
 const app = express();
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
-app.use(express.json());
-app.use(cookieParser());
+
 // const allowedOrigins = [`${process.env.CLIENT_WEB}`]; 
 
 const corsOptions = {
   origin: `${process.env.CLIENT_WEB}`,
   credentials: true, // Allow credentials
 };
-
+app.use(express.json());
+app.use(cookieParser());
 app.use(cors(corsOptions));
 
 
