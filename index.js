@@ -16,7 +16,7 @@ mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 // const allowedOrigins = [`${process.env.CLIENT_WEB}`]; 
 
 const corsOptions = {
-  origin: `${process.env.CLIENT_WEB}`.replace("https://",""),
+  origin: `${process.env.CLIENT_WEB}`,
   credentials: true, // Allow credentials
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 };
