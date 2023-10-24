@@ -47,13 +47,6 @@ userRouter.post("/login", async (req, res) => {
         const token = createToken(user._id);
         
         res
-          .cookie("jwt", token, {
-            httpOnly: false,
-            maxAge: maxAge * 1000 ,
-            sameSite: "None", 
-            secure: true, 
-           
-          })
           .status(201)
           .json({ token});
       } else {
@@ -75,13 +68,7 @@ userRouter.post("/signup", async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ userName, password: hashPassword });
     const token = createToken(user._id);
-    res.cookie("jwt", token, {
-      httpOnly: false,
-      maxAge: maxAge * 1000,
-      sameSite: "None", 
-      secure: true,
-     
-    });
+    
     res.status(201).json({ token });
   } catch (err) {
     const errors = handleErrors(err);
