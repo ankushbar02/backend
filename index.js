@@ -15,14 +15,16 @@ mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
 // const allowedOrigins = [`${process.env.CLIENT_WEB}`]; 
 // 
-const corsOptions = {
-  origin: `${process.env.CLIENT_WEB}`,
-  credentials:true, // Allow credentials
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-};
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsOptions));
+app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Replace '*' with the specific domains allowed to access your API.
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 
 
