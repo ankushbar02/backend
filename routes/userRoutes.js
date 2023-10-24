@@ -80,7 +80,7 @@ userRouter.post("/signup", async (req, res) => {
       maxAge: maxAge * 1000,
       sameSite: "None", // Allow cross-origin
       secure: true, // Require HTTPS for cross-origin
-      domain:`${process.env.CLIENT_WEB}`.replace("https://","")
+      domain:`${process.env.CLIENT_WEB}`
     });
     res.status(201).json({ userID: user._id });
   } catch (err) {
