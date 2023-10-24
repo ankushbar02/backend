@@ -49,7 +49,7 @@ userRouter.post("/login", async (req, res) => {
         res
           .cookie("jwt", token, {
             httpOnly: false,
-            maxAge: maxAge * 1000,
+            maxAge: maxAge * 1000 ,
             sameSite: "None", 
             secure: true, 
            
