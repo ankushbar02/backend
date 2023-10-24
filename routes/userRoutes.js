@@ -48,11 +48,11 @@ userRouter.post("/login", async (req, res) => {
         
         res
           .cookie("jwt", token, {
-            httpOnly: true,
+            httpOnly: false,
             maxAge: maxAge * 1000,
             sameSite: "None", // Allow cross-origin
             secure: true, // Require HTTPS for cross-origin
-            domain:`${process.env.CLIENT_WEB}`.replace("https://","")
+            domain:"."+`${process.env.CLIENT_WEB}`.replace("https://","")
           })
           .status(201)
           .json({ userID: user._id });
@@ -80,7 +80,7 @@ userRouter.post("/signup", async (req, res) => {
       maxAge: maxAge * 1000,
       sameSite: "None", // Allow cross-origin
       secure: true, // Require HTTPS for cross-origin
-      domain:`${process.env.CLIENT_WEB}`
+      domain:`.${process.env.CLIENT_WEB}`.replace("https://","")
     });
     res.status(201).json({ userID: user._id });
   } catch (err) {
