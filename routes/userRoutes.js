@@ -45,17 +45,8 @@ userRouter.post("/login", async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
         const token = createToken(user._id);
-        
-        res
-          .cookie("jwt", token, {
-            httpOnly: false,
-            maxAge: maxAge * 1000,
-            sameSite: "None", 
-            secure: true, 
-           
-          })
-          .status(201)
-          .json({ userID: user._id });
+
+        res.status(201).json({ token });
       } else {
         throw new Error("incorrect password");
       }
@@ -75,14 +66,8 @@ userRouter.post("/signup", async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ userName, password: hashPassword });
     const token = createToken(user._id);
-    res.cookie("jwt", token, {
-      httpOnly: false,
-      maxAge: maxAge * 1000,
-      sameSite: "None", 
-      secure: true,
-     
-    });
-    res.status(201).json({ userID: user._id });
+
+    res.status(201).json({ token });
   } catch (err) {
     const errors = handleErrors(err);
     res.json({ errors, created: false });
