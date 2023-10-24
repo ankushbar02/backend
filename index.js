@@ -28,4 +28,4 @@ app.use(cors({
 
 app.use(userRouter);
 app.use(noteRouter);
-app.listen(4000)
+app.listen(process.env.PORT||4000)
