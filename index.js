@@ -12,39 +12,24 @@ dotenv.config();
 const app = express();
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
-// const allowedOrigins = [`${process.env.CLIENT_WEB}`];
-//
-// const allowedOrigins = [
-//   process.env.CLIENT_WEB,
-//   process.env.CLIENT_WEB + "/",
-//   process.env.CLIENT_WEB + "/signup",
-//   process.env.CLIENT_WEB + "/readnotes",
-//   process.env.CLIENT_WEB + "/create/",
-//   process.env.CLIENT_WEB + "/update/",
-// ];
-// app.use(
-//   cors({
-//     origin: allowedOrigins,
-//     credentials: true,
-//   })
-// );
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "https://stickynote-mern.netlify.app");
-//   next();
-// });
-app.use(
-  cors({
-    // origin:process.env.CLIENT_WEB,
-    origin:"https://stickynote-mern.netlify.app",
-    credentials: true,
-  })
-);
-app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
 
-// console.log("client on"+process.env.CLIENT_WEB);
+// Enable CORS for specific origin and allow credentials
+app.use(
+  cors({
+    origin: process.env.CLIENT_WEB, // Replace with your client's actual domain
+    credentials: true,
+  })
+);
 
-app.use(userRouter);
-app.use(noteRouter);
-app.listen(process.env.PORT || 4000);
+// Define a route to handle preflight requests (OPTIONS requests)
+app.options('*', cors());
+
+// Your route handlers and other middleware go here...
+
+// Start the Express server
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
