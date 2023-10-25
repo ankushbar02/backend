@@ -25,7 +25,8 @@ app.use(
 
 // Define a route to handle preflight requests (OPTIONS requests)
 app.options('*', cors());
-
+app.use(userRouter);
+app.use(noteRouter);
 // Your route handlers and other middleware go here...
 
 // Start the Express server
