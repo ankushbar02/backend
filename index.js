@@ -47,26 +47,21 @@ dotenv.config();
 
 const app = express();
 
-// Enable CORS for specific origin and allow credentials
-app.use(
-  cors({
-    origin: process.env.CLIENT_WEB,
-    credentials: true,
-    preflightContinue:true
-  })
-);
+const domainsFromEnv = process.env.CLIENT_WEB || ""
 
-// Define a route to handle preflight requests (OPTIONS requests)
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin",  process.env.CLIENT_WEB);
-  res.header("Access-Control-Allow-Credentials", true);
+const whitelist = domainsFromEnv.split(",").map(item => item.trim())
 
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-    return res.status(200).json({});
-  }
-  next();
-});
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
+  credentials: true,
+}
+app.use(cors(corsOptions))
 
 // Your other middleware and route handlers go here...
 
