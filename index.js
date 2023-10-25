@@ -28,13 +28,14 @@ mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 //     credentials: true,
 //   })
 // );
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://stickynote-mern.netlify.app");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "https://stickynote-mern.netlify.app");
+//   next();
+// });
 app.use(
   cors({
     // origin:process.env.CLIENT_WEB,
+    origin:"https://stickynote-mern.netlify.app",
     credentials: true,
   })
 );
