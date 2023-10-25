@@ -47,12 +47,10 @@ dotenv.config();
 
 const app = express();
 
-const domainsFromEnv = process.env.CLIENT_WEB || ""
-
-const whitelist = domainsFromEnv.split(",").map(item => item.trim())
 
 
-app.use(cors())
+
+
 app.options( process.env.CLIENT_WEB, (req, res) => {
   res.header('Access-Control-Allow-Origin',  process.env.CLIENT_WEB);
   res.header('Access-Control-Allow-Methods', ' POST');
