@@ -26,7 +26,7 @@ console.log(process.env.CLIENT_WEB);
 app.use(cors({ 
   origin: process.env.CLIENT_WEB,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type,application/json',
+  credentials:true
 }));
 
 
