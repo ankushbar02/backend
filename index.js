@@ -43,11 +43,11 @@ import userRouter from "./routes/userRoutes.js";
 import cors from "cors";
 import dotenv from "dotenv";
 
-dotenv.config();
+
 
 const app = express();
 
-
+dotenv.config();
 
 
 app.use(cors({
