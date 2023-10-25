@@ -54,35 +54,35 @@ const whitelist = domainsFromEnv.split(",").map(item => item.trim())
 
 app.use(cors())
 app.options( process.env.CLIENT_WEB, (req, res) => {
- 
+  res.header('Access-Control-Allow-Origin',  process.env.CLIENT_WEB);
   res.header('Access-Control-Allow-Methods', ' POST');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Credentials', 'true');
   res.status(204).send();
 });
 app.options( `${process.env.CLIENT_WEB}/signup`, (req, res) => {
- 
+  res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_WEB}/signup`);
   res.header('Access-Control-Allow-Methods', ' POST');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Credentials', 'true');
   res.status(204).send();
 });
 app.options( `${process.env.CLIENT_WEB}/create`, (req, res) => {
- 
+  res.header('Access-Control-Allow-Origin',  `${process.env.CLIENT_WEB}/create`);
   res.header('Access-Control-Allow-Methods', ' POST');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Credentials', 'true'); 
   res.status(204).send();
 });
 app.options( `${process.env.CLIENT_WEB}/update`, (req, res) => {
- 
+  res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_WEB}/update`);
   res.header('Access-Control-Allow-Methods', ' GET, PATCH');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Credentials', 'true');
   res.status(204).send();
 });
 app.options( `${process.env.CLIENT_WEB}/readnotes`, (req, res) => {
- 
+  res.header('Access-Control-Allow-Origin',  `${process.env.CLIENT_WEB}/readnotes`);
   res.header('Access-Control-Allow-Methods', ' GET, DELETE, POST');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Credentials', 'true');
