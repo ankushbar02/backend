@@ -3,7 +3,7 @@ import User from "../model/UserModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import cors from "cors"
+import cors from "cors";
 const userRouter = express.Router();
 const maxAge = 3 * 24 * 60 * 60;
 dotenv.config();
@@ -36,40 +36,52 @@ const handleErrors = (err) => {
   return errors;
 };
 
-userRouter.post("/login",cors(), async (req, res) => {
-  try {
-    const { userName, password } = req.body;
+userRouter.post(
+  "/login",
+  cors({
+    origin: process.env.CLIENT_WEB,
+    credentials: true,
+    preflightContinue: true,
+    methods: ["GET", "POST", "PATCH", "DELETE", "UPDATE", "PUT"],
+  }),
+  async (req, res) => {
+    try {
+      const { userName, password } = req.body;
 
-    const user = await User.findOne({ userName: userName });
+      const user = await User.findOne({ userName: userName });
 
-    if (user) {
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (passwordMatch) {
-        const token = createToken(user._id);
-        
-        res
-          .status(201)
-          .json({ token});
+      if (user) {
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (passwordMatch) {
+          const token = createToken(user._id);
+
+          res.status(201).json({ token });
+        } else {
+          throw new Error("incorrect password");
+        }
       } else {
-        throw new Error("incorrect password");
+        throw new Error("incorrect email");
       }
-    } else {
-      throw new Error("incorrect email");
+    } catch (err) {
+      const errors = handleErrors(err);
+      res.json({ errors, created: false });
     }
-  } catch (err) {
-    const errors = handleErrors(err);
-    res.json({ errors, created: false });
   }
-});
+);
 
-userRouter.post("/signup",cors(), async (req, res) => {
+userRouter.post("/signup", cors({
+  origin:process.env.CLIENT_WEB+"/signup",
+  credentials:true,
+  preflightContinue:true,
+  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
+}), async (req, res) => {
   try {
     let { userName, password } = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ userName, password: hashPassword });
     const token = createToken(user._id);
-    
+
     res.status(201).json({ token });
   } catch (err) {
     const errors = handleErrors(err);
@@ -77,7 +89,12 @@ userRouter.post("/signup",cors(), async (req, res) => {
   }
 });
 
-userRouter.post("/home",cors(), async (req, res) => {
+userRouter.post("/home", cors({
+  origin:process.env.CLIENT_WEB+"/readnotes",
+  credentials:true,
+  preflightContinue:true,
+  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
+}), async (req, res) => {
   const token = req.cookies.jwt;
 
   if (token) {

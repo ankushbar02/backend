@@ -18,7 +18,7 @@ app.use(cors({
   origin:process.env.CLIENT_WEB,
   credentials:true,
   preflightContinue:true,
-  methods:["GET","POST","PATCH","DELETE"]
+  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
 }))
 
 

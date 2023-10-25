@@ -6,7 +6,12 @@ const noteRouter = express.Router();
 
 // Read
 
-noteRouter.get("/all",cors(), async (req, res) => {
+noteRouter.get("/all",cors({
+  origin:process.env.CLIENT_WEB+"/readnotes",
+  credentials:true,
+  
+  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
+}), async (req, res) => {
   const token = req.cookies.jwt;
 
   if (token) {
@@ -28,7 +33,12 @@ noteRouter.get("/all",cors(), async (req, res) => {
 
 // Read one data
 
-noteRouter.get("/single/:id",cors(), async (req, res) => {
+noteRouter.get("/single/:id",cors({
+  origin:process.env.CLIENT_WEB+"/update/",
+  credentials:true,
+ 
+  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
+}), async (req, res) => {
   const { id } = req.params;
   const token = req.cookies.jwt;
   if (token) {
@@ -48,7 +58,12 @@ noteRouter.get("/single/:id",cors(), async (req, res) => {
 });
 
 // Create
-noteRouter.post("/createnote",cors(), async (req, res) => {
+noteRouter.post("/createnote",cors({
+  origin:process.env.CLIENT_WEB+"/create",
+  credentials:true,
+  
+  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
+}), async (req, res) => {
   const { tittle, note } = req.body;
   const token = req.cookies.jwt;
   // console.log(token);
@@ -74,7 +89,12 @@ noteRouter.post("/createnote",cors(), async (req, res) => {
 });
 
 // Delete
-noteRouter.delete("/delete/:id",cors(), async (req, res) => {
+noteRouter.delete("/delete/:id",cors({
+  origin:process.env.CLIENT_WEB+"/readnotes",
+  credentials:true,
+ 
+  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
+}), async (req, res) => {
   const { id } = req.params;
   
   const token = req.cookies.jwt; 
@@ -99,7 +119,12 @@ noteRouter.delete("/delete/:id",cors(), async (req, res) => {
 });
 
 // Update
-noteRouter.patch("/update/:id",cors(), async (req, res) => {
+noteRouter.patch("/update/:id",cors({
+  origin:process.env.CLIENT_WEB+"/update/",
+  credentials:true,
+  
+  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
+}), async (req, res) => {
   const { id } = req.params;
   const token = req.cookies.jwt;
   if (token) {
