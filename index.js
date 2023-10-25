@@ -13,7 +13,7 @@ const app = express();
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
 
-// const allowedOrigins = [`${process.env.CLIENT_WEB}`,"http://localhost:4000/"]; 
+// const allowedOrigins = [`${process.env.CLIENT_WEB}`]; 
 // 
 
 app.use(express.json());
