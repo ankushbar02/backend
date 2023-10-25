@@ -14,6 +14,22 @@ mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
 // const allowedOrigins = [`${process.env.CLIENT_WEB}`];
 //
+// const allowedOrigins = [
+//   process.env.CLIENT_WEB,
+//   process.env.CLIENT_WEB + "/",
+//   process.env.CLIENT_WEB + "/signup",
+//   process.env.CLIENT_WEB + "/readnotes",
+//   process.env.CLIENT_WEB + "/create/",
+//   process.env.CLIENT_WEB + "/update/",
+// ];
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     credentials: true,
+//   })
+// );
+
+app.options('*', cors({credentials:true}));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -22,20 +38,7 @@ app.use(cookieParser());
 //   credentials:true
 // }));
 // console.log("client on"+process.env.CLIENT_WEB);
-const allowedOrigins = [
-  process.env.CLIENT_WEB,
-  process.env.CLIENT_WEB + "/",
-  process.env.CLIENT_WEB + "/signup",
-  process.env.CLIENT_WEB + "/readnotes",
-  process.env.CLIENT_WEB + "/create/",
-  process.env.CLIENT_WEB + "/update/",
-];
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
+
 
 app.use(userRouter);
 app.use(noteRouter);
