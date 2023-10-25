@@ -36,6 +36,11 @@ const handleErrors = (err) => {
   return errors;
 };
 
+userRouter.get("/",async(req,res)=>{
+  res.json({hi:"hello"});
+})
+
+
 userRouter.post(
   "/login",
   cors({
