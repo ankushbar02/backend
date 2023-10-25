@@ -77,8 +77,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Use the noteRouter and userRouter to handle requests to /notes and /users respectively
-app.use("/notes", noteRouter);
-app.use("/users", userRouter);
+app.use( noteRouter);
+app.use( userRouter);
 
 // Start the Express server
 const port = process.env.PORT || 4000;
