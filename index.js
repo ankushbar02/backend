@@ -13,13 +13,13 @@ const app = express();
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
 
-const allowedOrigins = [`${process.env.CLIENT_WEB}`,"http://localhost:3000/"]; 
+// const allowedOrigins = [`${process.env.CLIENT_WEB}`,"http://localhost:4000/"]; 
 // 
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin:allowedOrigins,
+  origin:process.env.CLIENT_WEB,
   credentials:true
 }));
 
