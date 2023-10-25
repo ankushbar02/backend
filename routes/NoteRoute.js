@@ -1,11 +1,12 @@
 import express from "express";
 import Note from "../model/NoteModel.js";
 import jwt from "jsonwebtoken";
+import cors from "cors"
 const noteRouter = express.Router();
 
 // Read
 
-noteRouter.get("/all", async (req, res) => {
+noteRouter.get("/all",cors(), async (req, res) => {
   const token = req.cookies.jwt;
 
   if (token) {
@@ -27,7 +28,7 @@ noteRouter.get("/all", async (req, res) => {
 
 // Read one data
 
-noteRouter.get("/single/:id", async (req, res) => {
+noteRouter.get("/single/:id",cors(), async (req, res) => {
   const { id } = req.params;
   const token = req.cookies.jwt;
   if (token) {
@@ -47,7 +48,7 @@ noteRouter.get("/single/:id", async (req, res) => {
 });
 
 // Create
-noteRouter.post("/createnote", async (req, res) => {
+noteRouter.post("/createnote",cors(), async (req, res) => {
   const { tittle, note } = req.body;
   const token = req.cookies.jwt;
   // console.log(token);
@@ -73,7 +74,7 @@ noteRouter.post("/createnote", async (req, res) => {
 });
 
 // Delete
-noteRouter.delete("/delete/:id", async (req, res) => {
+noteRouter.delete("/delete/:id",cors(), async (req, res) => {
   const { id } = req.params;
   
   const token = req.cookies.jwt; 
@@ -98,7 +99,7 @@ noteRouter.delete("/delete/:id", async (req, res) => {
 });
 
 // Update
-noteRouter.patch("/update/:id", async (req, res) => {
+noteRouter.patch("/update/:id",cors(), async (req, res) => {
   const { id } = req.params;
   const token = req.cookies.jwt;
   if (token) {

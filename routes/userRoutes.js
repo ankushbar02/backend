@@ -3,6 +3,7 @@ import User from "../model/UserModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import cors from "cors"
 const userRouter = express.Router();
 const maxAge = 3 * 24 * 60 * 60;
 dotenv.config();
@@ -35,7 +36,7 @@ const handleErrors = (err) => {
   return errors;
 };
 
-userRouter.post("/login", async (req, res) => {
+userRouter.post("/login",cors(), async (req, res) => {
   try {
     const { userName, password } = req.body;
 
@@ -61,7 +62,7 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-userRouter.post("/signup", async (req, res) => {
+userRouter.post("/signup",cors(), async (req, res) => {
   try {
     let { userName, password } = req.body;
 
@@ -76,7 +77,7 @@ userRouter.post("/signup", async (req, res) => {
   }
 });
 
-userRouter.post("/home", async (req, res) => {
+userRouter.post("/home",cors(), async (req, res) => {
   const token = req.cookies.jwt;
 
   if (token) {
