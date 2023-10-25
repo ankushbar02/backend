@@ -5,7 +5,7 @@ const noteRouter = express.Router();
 
 // Read
 
-noteRouter.get("/", async (req, res) => {
+noteRouter.get("/all", async (req, res) => {
   const token = req.cookies.jwt;
 
   if (token) {
@@ -27,7 +27,7 @@ noteRouter.get("/", async (req, res) => {
 
 // Read one data
 
-noteRouter.get("/:id", async (req, res) => {
+noteRouter.get("/single/:id", async (req, res) => {
   const { id } = req.params;
   const token = req.cookies.jwt;
   if (token) {
@@ -73,7 +73,7 @@ noteRouter.post("/createnote", async (req, res) => {
 });
 
 // Delete
-noteRouter.delete("/:id", async (req, res) => {
+noteRouter.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
   
   const token = req.cookies.jwt; 
@@ -98,7 +98,7 @@ noteRouter.delete("/:id", async (req, res) => {
 });
 
 // Update
-noteRouter.patch("/:id", async (req, res) => {
+noteRouter.patch("/update/:id", async (req, res) => {
   const { id } = req.params;
   const token = req.cookies.jwt;
   if (token) {

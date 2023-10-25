@@ -12,9 +12,8 @@ dotenv.config();
 const app = express();
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
-
-// const allowedOrigins = [`${process.env.CLIENT_WEB}`]; 
-// 
+// const allowedOrigins = [`${process.env.CLIENT_WEB}`];
+//
 
 app.use(express.json());
 app.use(cookieParser());
@@ -23,12 +22,23 @@ app.use(cookieParser());
 //   credentials:true
 // }));
 // console.log("client on"+process.env.CLIENT_WEB);
-app.use(cors({ 
-  origin: "https://creative-dasik-26ae4b.netlify.app",
-  credentials:true
-}));
-
+const allowedOrigins = [
+  process.env.CLIENT_WEB,
+  process.env.CLIENT_WEB + "/login",
+  process.env.CLIENT_WEB + "/signup",
+  process.env.CLIENT_WEB + "/all",
+  process.env.CLIENT_WEB + "/single/",
+  process.env.CLIENT_WEB + "/createnote",
+  process.env.CLIENT_WEB + "/delete/",
+  process.env.CLIENT_WEB + "/update/",
+];
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 app.use(userRouter);
 app.use(noteRouter);
-app.listen(process.env.PORT||4000)
+app.listen(process.env.PORT || 4000);
