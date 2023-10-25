@@ -28,17 +28,20 @@ mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 //     credentials: true,
 //   })
 // );
-
-app.options('*', cors({credentials:true}));
-
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", `${process.env.CLIENT_WEB}`);
+  next();
+});
+app.use(
+  cors({
+    // origin:process.env.CLIENT_WEB,
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors({
-//   origin:process.env.CLIENT_WEB,
-//   credentials:true
-// }));
-// console.log("client on"+process.env.CLIENT_WEB);
 
+// console.log("client on"+process.env.CLIENT_WEB);
 
 app.use(userRouter);
 app.use(noteRouter);
