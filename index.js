@@ -22,7 +22,7 @@ app.use(cookieParser());
 //   origin:process.env.CLIENT_WEB,
 //   credentials:true
 // }));
-
+console.log("client on"+process.env.CLIENT_WEB);
 app.use(cors({ 
   origin: process.env.CLIENT_WEB,
   credentials:true
