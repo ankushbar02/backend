@@ -18,12 +18,16 @@ mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-  origin:process.env.CLIENT_WEB,
-  credentials:true
+// app.use(cors({
+//   origin:process.env.CLIENT_WEB,
+//   credentials:true
+// }));
+console.log(process.env.CLIENT_WEB);
+app.use(cors({ 
+  origin: process.env.CLIENT_WEB,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type,application/json',
 }));
-
-
 
 
 app.use(userRouter);
