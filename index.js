@@ -47,21 +47,39 @@ dotenv.config();
 
 const app = express();
 
-const domainsFromEnv = process.env.CLIENT_WEB || ""
+const domainsFromEnv = process.env.CLIENT_WEB || "";
 
-const whitelist = domainsFromEnv.split(",").map(item => item.trim())
+const whitelist = domainsFromEnv.split(",").map((item) => item.trim());
 
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
+      callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"))
+      callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
-}
-app.use(cors(corsOptions))
+};
+app.use(cors(corsOptions));
+app.options(
+  function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  (req, res) => {
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE,PATCH");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Content-Type, application/json"
+    );
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.status(204).send();
+  }
+);
 
 // Your other middleware and route handlers go here...
 
@@ -75,8 +93,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Use the noteRouter and userRouter to handle requests to /notes and /users respectively
-app.use( noteRouter);
-app.use( userRouter);
+app.use(noteRouter);
+app.use(userRouter);
 
 // Start the Express server
 const port = process.env.PORT || 4000;
