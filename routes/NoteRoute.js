@@ -6,12 +6,7 @@ const noteRouter = express.Router();
 
 // Read
 
-noteRouter.get("/all",cors({
-  origin:process.env.CLIENT_WEB+"/readnotes",
-  credentials:true,
-  
-  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
-}), async (req, res) => {
+noteRouter.get("/all",async (req, res) => {
   const token = req.cookies.jwt;
 
   if (token) {
@@ -33,12 +28,7 @@ noteRouter.get("/all",cors({
 
 // Read one data
 
-noteRouter.get("/single/:id",cors({
-  origin:process.env.CLIENT_WEB+"/update/",
-  credentials:true,
- 
-  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
-}), async (req, res) => {
+noteRouter.get("/single/:id",async (req, res) => {
   const { id } = req.params;
   const token = req.cookies.jwt;
   if (token) {
@@ -58,12 +48,7 @@ noteRouter.get("/single/:id",cors({
 });
 
 // Create
-noteRouter.post("/createnote",cors({
-  origin:process.env.CLIENT_WEB+"/create",
-  credentials:true,
-  
-  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
-}), async (req, res) => {
+noteRouter.post("/createnote", async (req, res) => {
   const { tittle, note } = req.body;
   const token = req.cookies.jwt;
   // console.log(token);
@@ -89,12 +74,7 @@ noteRouter.post("/createnote",cors({
 });
 
 // Delete
-noteRouter.delete("/delete/:id",cors({
-  origin:process.env.CLIENT_WEB+"/readnotes",
-  credentials:true,
- 
-  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
-}), async (req, res) => {
+noteRouter.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
   
   const token = req.cookies.jwt; 
@@ -119,12 +99,7 @@ noteRouter.delete("/delete/:id",cors({
 });
 
 // Update
-noteRouter.patch("/update/:id",cors({
-  origin:process.env.CLIENT_WEB+"/update/",
-  credentials:true,
-  
-  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
-}), async (req, res) => {
+noteRouter.patch("/update/:id",async (req, res) => {
   const { id } = req.params;
   const token = req.cookies.jwt;
   if (token) {

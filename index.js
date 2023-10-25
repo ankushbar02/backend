@@ -17,8 +17,8 @@ dotenv.config();
 app.use(cors({
   origin:process.env.CLIENT_WEB,
   credentials:true,
-  preflightContinue:true,
-  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
+  
+  methods:["GET","POST","PATCH","DELETE","UPDATE"]
 }))
 
 

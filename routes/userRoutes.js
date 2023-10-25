@@ -43,12 +43,7 @@ userRouter.get("/",async(req,res)=>{
 
 userRouter.post(
   "/login",
-  cors({
-    origin: process.env.CLIENT_WEB,
-    credentials: true,
-    preflightContinue: true,
-    methods: ["GET", "POST", "PATCH", "DELETE", "UPDATE", "PUT"],
-  }),
+  
   async (req, res) => {
     try {
       const { userName, password } = req.body;
@@ -74,12 +69,7 @@ userRouter.post(
   }
 );
 
-userRouter.post("/signup", cors({
-  origin:process.env.CLIENT_WEB+"/signup",
-  credentials:true,
-  preflightContinue:true,
-  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
-}), async (req, res) => {
+userRouter.post("/signup",  async (req, res) => {
   try {
     let { userName, password } = req.body;
 
@@ -94,12 +84,7 @@ userRouter.post("/signup", cors({
   }
 });
 
-userRouter.post("/home", cors({
-  origin:process.env.CLIENT_WEB+"/readnotes",
-  credentials:true,
-  preflightContinue:true,
-  methods:["GET","POST","PATCH","DELETE","UPDATE","PUT"]
-}), async (req, res) => {
+userRouter.post("/home", async (req, res) => {
   const token = req.cookies.jwt;
 
   if (token) {
