@@ -29,7 +29,7 @@ mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 //   })
 // );
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", `${process.env.CLIENT_WEB}`);
+  res.header("Access-Control-Allow-Origin", "https://stickynote-mern.netlify.app");
   next();
 });
 app.use(
