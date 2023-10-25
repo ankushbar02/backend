@@ -24,12 +24,10 @@ app.use(cookieParser());
 // console.log("client on"+process.env.CLIENT_WEB);
 const allowedOrigins = [
   process.env.CLIENT_WEB,
-  process.env.CLIENT_WEB + "/login",
+  process.env.CLIENT_WEB + "/",
   process.env.CLIENT_WEB + "/signup",
-  process.env.CLIENT_WEB + "/all",
-  process.env.CLIENT_WEB + "/single/",
-  process.env.CLIENT_WEB + "/createnote",
-  process.env.CLIENT_WEB + "/delete/",
+  process.env.CLIENT_WEB + "/readnotes",
+  process.env.CLIENT_WEB + "/create/",
   process.env.CLIENT_WEB + "/update/",
 ];
 app.use(
