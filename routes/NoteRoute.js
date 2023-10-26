@@ -20,6 +20,7 @@ noteRouter.get("/all", async (req, res) => {
         const response = await Note.find({ userId: decodedToken.id });
         if (response) {
           // Successfully fetched the notes
+          
           return res.status(200).json(response); // 200 indicates a successful request
         } else {
           // Failed to fetch notes (no notes found)
