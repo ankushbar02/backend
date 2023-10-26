@@ -41,6 +41,7 @@ app.options("*", (req, res) => {
     allowHeaders.includes(req.headers["access-control-request-headers"])
   ) {
     console.log("pass");
+    res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_WEB); // Add this line
     return res.status(204).send();
   } else {
     console.log("fail");
