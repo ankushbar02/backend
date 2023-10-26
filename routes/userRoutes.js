@@ -36,14 +36,13 @@ const handleErrors = (err) => {
   return errors;
 };
 
-userRouter.get("/",async(req,res)=>{
-  res.json({hi:"hello"});
-})
-
+userRouter.get("/", async (req, res) => {
+  res.json({ hi: "hello" });
+});
 
 userRouter.post(
   "/login",
-  
+
   async (req, res) => {
     try {
       const { userName, password } = req.body;
@@ -69,7 +68,7 @@ userRouter.post(
   }
 );
 
-userRouter.post("/signup",  async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
   try {
     let { userName, password } = req.body;
 
