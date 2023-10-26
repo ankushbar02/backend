@@ -85,7 +85,7 @@ userRouter.post("/signup", async (req, res) => {
 
 userRouter.post("/home", async (req, res) => {
   const token = req.cookies.jwt;
-
+console.log(token);
   if (token) {
     jwt.verify(token, "something_fancy_salt", async (err, decodedToken) => {
       if (err) {
