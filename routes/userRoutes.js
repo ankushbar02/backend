@@ -41,39 +41,35 @@ userRouter.get("/", async (req, res) => {
 });
 
 userRouter.post("/login", async (req, res) => {
-    try {
-      const { userName, password } = req.body;
+  try {
+    const { userName, password } = req.body;
 
-      const user = await User.findOne({ userName: userName });
+    const user = await User.findOne({ userName: userName });
 
-      if (user) {
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (passwordMatch) {
-          const token = createToken(user._id);
-        
-          res
-          .cookie("jwt", token, {
-            httpOnly: false,
-            maxAge: maxAge * 1000,
-            sameSite:"none",
-            secure:true
-          })
-          .status(201)
-          .json({ userID: user._id });
+    if (user) {
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (passwordMatch) {
+        const token = createToken(user._id);
+        // .cookie("jwt", token, {
+        //   httpOnly: false,
+        //   maxAge: maxAge * 1000,
+        //   sameSite:"none",
+        //   secure:true
+        // })
+        res.status(201).json({ userID: user._id });
 
-          // res.status(201).json({ token });
-        } else {
-          throw new Error("incorrect password");
-        }
+        // res.status(201).json({ token });
       } else {
-        throw new Error("incorrect email");
+        throw new Error("incorrect password");
       }
-    } catch (err) {
-      const errors = handleErrors(err);
-      res.json({ errors, created: false });
+    } else {
+      throw new Error("incorrect email");
     }
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.json({ errors, created: false });
   }
-);
+});
 
 userRouter.post("/signup", async (req, res) => {
   try {
@@ -82,17 +78,13 @@ userRouter.post("/signup", async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ userName, password: hashPassword });
     const token = createToken(user._id);
-
-    res
-    .cookie("jwt", token, {
-      httpOnly: false,
-      maxAge: maxAge * 1000,
-      sameSite:"none",
-      secure:true
-    })
-    .status(201)
-    .json({ userID: user._id });
-
+    // .cookie("jwt", token, {
+    //         httpOnly: false,
+    //         maxAge: maxAge * 1000,
+    //         sameSite: "none",
+    //         secure: true,
+    //       })
+    res.status(201).json({ userID: user._id });
 
     // res.status(201).json({ token });
   } catch (err) {
@@ -103,7 +95,7 @@ userRouter.post("/signup", async (req, res) => {
 
 userRouter.post("/home", async (req, res) => {
   const token = req.cookies.jwt;
-  
+
   if (token) {
     jwt.verify(token, "something_fancy_salt", async (err, decodedToken) => {
       if (err) {
