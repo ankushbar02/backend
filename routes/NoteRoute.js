@@ -1,7 +1,7 @@
 import express from "express";
 import Note from "../model/NoteModel.js";
 import jwt from "jsonwebtoken";
-import cors from "cors"
+
 const noteRouter = express.Router();
 
 // Read
