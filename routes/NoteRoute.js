@@ -2,10 +2,12 @@ import express from "express";
 import Note from "../model/NoteModel.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+
 const noteRouter = express.Router();
 dotenv.config();
 // Read
-
+noteRouter.use(cookieParser())
 noteRouter.get("/all", async (req, res) => {
   const token = req.cookies.jwt;
 

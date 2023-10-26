@@ -3,8 +3,9 @@ import User from "../model/UserModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-
+import cookieParser from "cookie-parser";
 const userRouter = express.Router();
+userRouter.use(cookieParser());
 const maxAge = 3 * 24 * 60 * 60;
 dotenv.config();
 const createToken = (id) => {
@@ -40,7 +41,6 @@ userRouter.get("/", async (req, res) => {
   res.json({ hi: "hello" });
 });
 
-
 userRouter.post("/login", async (req, res) => {
   try {
     const { userName, password } = req.body;
@@ -64,7 +64,6 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-
 userRouter.post("/signup", async (req, res) => {
   try {
     let { userName, password } = req.body;
@@ -87,7 +86,6 @@ userRouter.post("/signup", async (req, res) => {
   }
 });
 
-
 userRouter.post("/home", async (req, res) => {
   const token = req.cookies.jwt;
 
@@ -98,7 +96,9 @@ userRouter.post("/home", async (req, res) => {
       } else {
         const user = await User.findOne({ _id: decodedToken.id });
         if (user) {
-          res.status(200).json({ status: true, user: user.userName, id: user._id,token }); // 200 for OK
+          res
+            .status(200)
+            .json({ status: true, user: user.userName, id: user._id, token }); // 200 for OK
         } else {
           res.status(404).json({ status: false }); // 404 for Not Found
         }
@@ -108,6 +108,5 @@ userRouter.post("/home", async (req, res) => {
     res.status(401).json({ status: false }); // 401 for Unauthorized
   }
 });
-
 
 export default userRouter;
