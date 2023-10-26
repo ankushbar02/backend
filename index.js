@@ -15,38 +15,13 @@ app.use(bodyParser.json());
 
 // Use cookie-parser to parse incoming cookies
 app.use(cookieParser());
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_WEB);
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS,CONNECT,TRACE"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Content-Type-Options, X-Requested-With, Origin, Access-Control-Request-Method, Access-Control-Request-Headers,Content-Length, Host, User-Agent, Accept, Accept-Encoding, Connection"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  
-
-
-  next();
-});
-// Set preflight
-app.options("*", (req, res) => {
-  console.log("preflight");
-  if (
-    req.headers.origin === process.env.CLIENT_WEB &&
-    allowMethods.includes(req.headers["access-control-request-method"]) &&
-    allowHeaders.includes(req.headers["access-control-request-headers"])
-  ) {
-    console.log("pass");
-    res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_WEB); // Add this line
-    return res.status(204).send();
-  } else {
-    console.log("fail");
+app.use(cors(
+  {
+      origin: ["https://deploy-mern-frontend.vercel.app"],
+      methods: ["POST", "GET","PATCH","UPDATE","DELETE"],
+      credentials: true
   }
-});
+));
 
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
