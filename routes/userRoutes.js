@@ -56,9 +56,9 @@ userRouter.post("/login", async (req, res) => {
         //   sameSite:"none",
         //   secure:true
         // })
-        res.status(201).json({ userID: user._id });
+        // res.status(201).json({ userID: user._id });
 
-        // res.status(201).json({ token });
+        res.status(201).json({ token });
       } else {
         throw new Error("incorrect password");
       }
@@ -84,9 +84,9 @@ userRouter.post("/signup", async (req, res) => {
     //         sameSite: "none",
     //         secure: true,
     //       })
-    res.status(201).json({ userID: user._id });
+    // res.status(201).json({ userID: user._id });
 
-    // res.status(201).json({ token });
+    res.status(201).json({ token });
   } catch (err) {
     const errors = handleErrors(err);
     res.json({ errors, created: false });
