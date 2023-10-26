@@ -40,10 +40,7 @@ userRouter.get("/", async (req, res) => {
   res.json({ hi: "hello" });
 });
 
-userRouter.post(
-  "/login",
-
-  async (req, res) => {
+userRouter.post("/login", async (req, res) => {
     try {
       const { userName, password } = req.body;
 
@@ -53,8 +50,18 @@ userRouter.post(
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (passwordMatch) {
           const token = createToken(user._id);
+        
+          res
+          .cookie("jwt", token, {
+            httpOnly: false,
+            maxAge: maxAge * 1000,
+            sameSite:"none",
+            secure:true
+          })
+          .status(201)
+          .json({ userID: user._id });
 
-          res.status(201).json({ token });
+          // res.status(201).json({ token });
         } else {
           throw new Error("incorrect password");
         }
@@ -76,7 +83,18 @@ userRouter.post("/signup", async (req, res) => {
     const user = await User.create({ userName, password: hashPassword });
     const token = createToken(user._id);
 
-    res.status(201).json({ token });
+    res
+    .cookie("jwt", token, {
+      httpOnly: false,
+      maxAge: maxAge * 1000,
+      sameSite:"none",
+      secure:true
+    })
+    .status(201)
+    .json({ userID: user._id });
+
+
+    // res.status(201).json({ token });
   } catch (err) {
     const errors = handleErrors(err);
     res.json({ errors, created: false });
@@ -85,7 +103,7 @@ userRouter.post("/signup", async (req, res) => {
 
 userRouter.post("/home", async (req, res) => {
   const token = req.cookies.jwt;
-console.log(token);
+  
   if (token) {
     jwt.verify(token, "something_fancy_salt", async (err, decodedToken) => {
       if (err) {
