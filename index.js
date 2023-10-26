@@ -10,11 +10,12 @@ import dotenv from "dotenv";
 const app = express();
 
 dotenv.config();
-// Use body-parser to parse incoming JSON requests
+app.use(cookieParser());
+
 app.use(bodyParser.json());
 
-// Use cookie-parser to parse incoming cookies
-app.use(cookieParser());
+
+
 app.use(cors(
   {
       origin: [process.env.CLIENT_WEB],

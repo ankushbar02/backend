@@ -40,36 +40,7 @@ userRouter.get("/", async (req, res) => {
   res.json({ hi: "hello" });
 });
 
-// userRouter.post("/login", async (req, res) => {
-//   try {
-//     const { userName, password } = req.body;
 
-//     const user = await User.findOne({ userName: userName });
-
-//     if (user) {
-//       const passwordMatch = await bcrypt.compare(password, user.password);
-//       if (passwordMatch) {
-//         const token = createToken(user._id);
-//         // .cookie("jwt", token, {
-//         //   httpOnly: false,
-//         //   maxAge: maxAge * 1000,
-//         //   sameSite:"none",
-//         //   secure:true
-//         // })
-//         // res.status(201).json({ userID: user._id });
-
-//         res.status(201).json({ token });
-//       } else {
-//         throw new Error("incorrect password");
-//       }
-//     } else {
-//       throw new Error("incorrect email");
-//     }
-//   } catch (err) {
-//     const errors = handleErrors(err);
-//     res.json({ errors, created: false });
-//   }
-// });
 userRouter.post("/login", async (req, res) => {
   try {
     const { userName, password } = req.body;
