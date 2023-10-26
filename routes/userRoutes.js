@@ -83,7 +83,7 @@ userRouter.post("/signup", async (req, res) => {
   }
 });
 
-userRouter.post("/home", async (req, res) => {
+userRouter.get("/home", async (req, res) => {
   const token = req.cookies.jwt;
 
   if (token) {
