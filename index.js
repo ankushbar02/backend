@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors(
   {
-      origin: ["https://stickynotes-mern.netlify.app"],
+      origin: [process.env.CLIENT_WEB],
       methods: ["POST", "GET","PATCH","UPDATE","DELETE"],
       credentials: true
   }
