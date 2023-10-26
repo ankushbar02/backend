@@ -3,12 +3,12 @@ import User from "../model/UserModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import cors from "cors";
+
 const userRouter = express.Router();
 const maxAge = 3 * 24 * 60 * 60;
 dotenv.config();
 const createToken = (id) => {
-  return jwt.sign({ id }, "something_fancy_salt", { expiresIn: maxAge });
+  return jwt.sign({ id }, process.env.SALT, { expiresIn: maxAge });
 };
 
 const handleErrors = (err) => {
@@ -97,7 +97,7 @@ userRouter.post("/home", async (req, res) => {
   const token = req.cookies.jwt;
 
   if (token) {
-    jwt.verify(token, "something_fancy_salt", async (err, decodedToken) => {
+    jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
       if (err) {
         res.json({ status: false });
       } else {
