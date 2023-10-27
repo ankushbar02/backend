@@ -86,7 +86,7 @@ userRouter.post("/home", async (req, res) => {
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
       if (err) {
-        res.status(401).json({ status: false }); // 401 for Unauthorized
+        res.status(401).json({ status: false }); // 401 for Unauthorize
       } else {
         const user = await User.findOne({ _id: decodedToken.id });
         if (user) {
