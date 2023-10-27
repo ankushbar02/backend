@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
-import bodyParser from "body-parser";
+
 import noteRouter from "./routes/NoteRoute.js";
 import userRouter from "./routes/userRoutes.js";
 import cors from "cors";
@@ -19,7 +19,7 @@ app.use(cors({
 
 app.use(cookieParser()); 
 
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.set("trust proxy", 1);
 

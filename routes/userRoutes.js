@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 const userRouter = express.Router();
 userRouter.use(cookieParser());
+userRouter.use(express.urlencoded({ extended: true }));
 const maxAge = 3 * 24 * 60 * 60;
 dotenv.config();
 const createToken = (id) => {
@@ -81,8 +82,9 @@ userRouter.post("/signup", async (req, res) => {
 userRouter.post("/home", async (req, res) => {
   // const token = req.cookies.jwt;
 
-const tok=req.headers.authorization
-const token=tok.replace("Bearer","");
+  const tok = req.headers.authorization;
+  const token = tok.split(" ")[1];
+  // console.log(token);
 
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
