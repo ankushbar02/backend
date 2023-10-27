@@ -8,7 +8,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 dotenv.config();
 
 app.use(cors({
