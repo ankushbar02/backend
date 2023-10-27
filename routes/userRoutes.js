@@ -18,16 +18,13 @@ const handleErrors = (err) => {
   if (err.message === "incorrect email") {
     errors.email = "Entered email is not registered";
   }
-
   if (err.message === "incorrect password") {
     errors.password = "Entered password is incorrect";
   }
-
   if (err.code === 11000) {
     errors.email = "Email is already registered";
     return errors;
   }
-
   if (err.message.includes("User validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
@@ -46,28 +43,26 @@ userRouter.post("/login", async (req, res) => {
     const { userName, password } = req.body;
 
     const user = await User.findOne({ userName: userName });
-
     if (user) {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
         const token = createToken(user._id);
-        res.status(200).json({ token }); // 200 for successful login
+        res.status(200).json({ token });
       } else {
-        res.status(401).json({ message: "Incorrect password" }); // 401 for Unauthorized
+        throw new Error("incorrect password");
       }
     } else {
-      res.status(404).json({ message: "User not found" }); // 404 for Not Found
+      throw new Error("incorrect email");
     }
   } catch (err) {
     const errors = handleErrors(err);
-    res.status(500).json({ errors, created: false }); // 500 for Internal Server Error
+    res.status(500).json({ errors, created: false });
   }
 });
 
 userRouter.post("/signup", async (req, res) => {
   try {
     let { userName, password } = req.body;
-
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ userName, password: hashPassword });
     const token = createToken(user._id);
@@ -79,28 +74,26 @@ userRouter.post("/signup", async (req, res) => {
 });
 
 userRouter.post("/home", async (req, res) => {
-  // const token = req.cookies.jwt;
+  const tok = req.headers.authorization;
+  const token = tok.split(" ")[1];
 
-const tok=req.headers.authorization
-const token=tok.split(" ")[1];
-// console.log(myaccess);
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
       if (err) {
-        res.status(401).json({ status: false }); // 401 for Unauthorized
+        res.status(401).json({ status: false });
       } else {
         const user = await User.findOne({ _id: decodedToken.id });
         if (user) {
           res
             .status(200)
-            .json({ status: true, user: user.userName, id: user._id, token }); // 200 for OK
+            .json({ status: true, user: user.userName, id: user._id, token });
         } else {
-          res.status(404).json({ status: false }); // 404 for Not Found
+          res.status(404).json({ status: false });
         }
       }
     });
   } else {
-    res.status(402).json({ status: false }); // 401 for Unauthorized
+    res.status(402).json({ status: false });
   }
 });
 

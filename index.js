@@ -11,24 +11,26 @@ const app = express();
 
 dotenv.config();
 
-app.use(cors({
-  origin: [process.env.CLIENT_WEB],
-  methods: ["POST", "GET", "PATCH", "UPDATE", "DELETE"],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [process.env.CLIENT_WEB],
+    methods: ["POST", "GET", "PATCH", "UPDATE", "DELETE"],
+    credentials: true,
+  })
+);
 
-app.use(cookieParser()); 
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 
 app.set("trust proxy", 1);
 
 app.use(function (req, res, next) {
-  res.header('Content-Type', 'application/json;charset=UTF-8');
-  res.header('Access-Control-Allow-Credentials', true);
+  res.header("Content-Type", "application/json;charset=UTF-8");
+  res.header("Access-Control-Allow-Credentials", true);
   res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
 });
