@@ -6,9 +6,8 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 const userRouter = express.Router();
 userRouter.use(cookieParser());
-userRouter.use(express.urlencoded({ extended: false }));
 const maxAge = 3 * 24 * 60 * 60;
-dotenv.config(); 
+dotenv.config();
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.SALT, { expiresIn: maxAge });
 };
@@ -72,6 +71,14 @@ userRouter.post("/signup", async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ userName, password: hashPassword });
     const token = createToken(user._id);
+    // .cookie("jwt", token, {
+    //         httpOnly: false,
+    //         maxAge: maxAge * 1000,
+    //         sameSite: "none",
+    //         secure: true,
+    //       })
+    // res.status(201).json({ userID: user._id });
+
     res.status(201).json({ token });
   } catch (err) {
     const errors = handleErrors(err);
@@ -80,11 +87,7 @@ userRouter.post("/signup", async (req, res) => {
 });
 
 userRouter.post("/home", async (req, res) => {
-  // const token = req.cookies.jwt;
-
-  const tok = req.headers.authorization;
-  const token = tok.split(" ")[1];
-  
+  const token = req.cookies.jwt;
 
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
