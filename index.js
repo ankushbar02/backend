@@ -10,36 +10,34 @@ import dotenv from "dotenv";
 const app = express();
 
 dotenv.config();
-app.use(cookieParser());
+
+app.use(cors({
+  origin: [process.env.CLIENT_WEB],
+  methods: ["POST", "GET", "PATCH", "UPDATE", "DELETE"],
+  credentials: true
+}));
+
+app.use(cookieParser()); 
 
 app.use(bodyParser.json());
 
-app.set("trust proxy", 1)
+app.set("trust proxy", 1);
 
-app.use(cors(
-  {
-      origin: [process.env.CLIENT_WEB],
-      methods: ["POST", "GET","PATCH","UPDATE","DELETE"],
-      credentials: true
-  }
-));
-app.use(function(req, res, next) {
-  res.header('Content-Type', 'application/json;charset=UTF-8')
-  res.header('Access-Control-Allow-Credentials', true)
+app.use(function (req, res, next) {
+  res.header('Content-Type', 'application/json;charset=UTF-8');
+  res.header('Access-Control-Allow-Credentials', true);
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
-  )
-  next()
-})
+  );
+  next();
+});
 
 mongoose.connect(process.env.DB || "mongodb://localhost:27017/NotesDB");
 
-// Use the noteRouter and userRouter to handle requests to /notes and /users respectively
 app.use(noteRouter);
 app.use(userRouter);
 
-// Start the Express server
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

@@ -105,7 +105,7 @@ userRouter.post("/home", async (req, res) => {
       }
     });
   } else {
-    res.status(401).json({ status: false }); // 401 for Unauthorized
+    res.status(402).json({ status: false }); // 401 for Unauthorized
   }
 });
 
