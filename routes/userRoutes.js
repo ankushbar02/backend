@@ -87,9 +87,9 @@ userRouter.post("/signup", async (req, res) => {
 });
 
 userRouter.post("/home", async (req, res) => {
-  // const token = req.cookies.jwt;
-  const tok = req.headers.authorization;
-  const token = tok.split(" ")[1];
+  const token = req.cookies.jwt;
+  // const tok = req.headers.authorization;
+  // const token = tok.split(" ")[1];
   
 
   if (token) {
