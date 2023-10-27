@@ -84,7 +84,7 @@ userRouter.post("/home", async (req, res) => {
 
   const tok = req.headers.authorization;
   const token = tok.split(" ")[1];
-  // console.log(token);
+  
 
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {

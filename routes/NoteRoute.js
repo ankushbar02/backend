@@ -7,12 +7,12 @@ import cookieParser from "cookie-parser";
 const noteRouter = express.Router();
 dotenv.config();
 // Read
-noteRouter.use(cookieParser());
+noteRouter.use(cookieParser())
 noteRouter.use(express.urlencoded({ extended: true }));
 noteRouter.get("/all", async (req, res) => {
   // const token = req.cookies.jwt;
-  const tok = req.headers.authorization;
-  const token = tok.split(" ")[1];
+  const tok=req.headers.authorization
+  const token=tok.split(' ')[1];
 
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
@@ -25,7 +25,7 @@ noteRouter.get("/all", async (req, res) => {
         const response = await Note.find({ userId: decodedToken.id });
         if (response) {
           // Successfully fetched the notes
-
+          
           return res.status(200).json(response); // 200 indicates a successful request
         } else {
           // Failed to fetch notes (no notes found)
@@ -114,8 +114,8 @@ noteRouter.post("/createnote", async (req, res) => {
 noteRouter.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
   // const token = req.cookies.jwt;
-  const tok = req.headers.authorization;
-  const token = tok.split(" ")[1];
+  const tok=req.headers.authorization
+  const token=tok.split(' ')[1];
 
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
