@@ -71,8 +71,6 @@ userRouter.post("/signup", async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ userName, password: hashPassword });
     const token = createToken(user._id);
-    
-
     res.status(201).json({ token });
   } catch (err) {
     const errors = handleErrors(err);
@@ -83,10 +81,13 @@ userRouter.post("/signup", async (req, res) => {
 userRouter.post("/home", async (req, res) => {
   const token = req.cookies.jwt;
 
+const tok=req.headers.authorization
+const myaccess=tok.replace("Bearer","");
+console.log(myaccess);
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
       if (err) {
-        res.status(401).json({ status: false }); // 401 for Unauthorize
+        res.status(401).json({ status: false }); // 401 for Unauthorized
       } else {
         const user = await User.findOne({ _id: decodedToken.id });
         if (user) {
