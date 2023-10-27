@@ -79,11 +79,11 @@ userRouter.post("/signup", async (req, res) => {
 });
 
 userRouter.post("/home", async (req, res) => {
-  const token = req.cookies.jwt;
+  // const token = req.cookies.jwt;
 
 const tok=req.headers.authorization
-const myaccess=tok.replace("Bearer","");
-console.log(myaccess);
+const token=tok.split(" ")[1];
+// console.log(myaccess);
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
       if (err) {
