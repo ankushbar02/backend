@@ -9,7 +9,9 @@ dotenv.config();
 // Read
 noteRouter.use(cookieParser())
 noteRouter.get("/all", async (req, res) => {
-  const token = req.cookies.jwt;
+  // const token = req.cookies.jwt;
+  const tok=req.headers.authorization
+const token=tok.replace("Bearer","");
 
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
@@ -110,7 +112,9 @@ noteRouter.post("/createnote", async (req, res) => {
 
 noteRouter.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
-  const token = req.cookies.jwt;
+  // const token = req.cookies.jwt;
+  const tok=req.headers.authorization
+const token=tok.replace("Bearer","");
 
   if (token) {
     jwt.verify(token, process.env.SALT, async (err, decodedToken) => {
