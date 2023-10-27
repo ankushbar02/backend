@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 const userRouter = express.Router();
 userRouter.use(cookieParser());
-userRouter.use(express.urlencoded({ extended: true }));
+userRouter.use(express.urlencoded({ extended: false }));
 const maxAge = 3 * 24 * 60 * 60;
 dotenv.config(); 
 const createToken = (id) => {
