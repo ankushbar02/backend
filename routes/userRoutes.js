@@ -25,6 +25,10 @@ const handleErrors = (err) => {
     errors.email = "Email is already registered";
     return errors;
   }
+  if (err.message === "User Exist") {
+    errors.email = "Email is already registered";
+    return errors;
+  }
   if (err.message.includes("User validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
@@ -63,10 +67,16 @@ userRouter.post("/login", async (req, res) => {
 userRouter.post("/signup", async (req, res) => {
   try {
     let { userName, password } = req.body;
-    const hashPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ userName, password: hashPassword });
-    const token = createToken(user._id);
-    res.status(201).json({ token });
+
+    const user = await User.findOne({ userName: userName });
+    if (user) {
+      throw new Error("User Exist");
+    } else {
+      const hashPassword = await bcrypt.hash(password, 10);
+      user = await User.create({ userName, password: hashPassword });
+      const token = createToken(user._id);
+      res.status(201).json({ token });
+    }
   } catch (err) {
     const errors = handleErrors(err);
     res.json({ errors, created: false });
