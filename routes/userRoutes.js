@@ -9,7 +9,7 @@ userRouter.use(cookieParser());
 const maxAge = 3 * 24 * 60 * 60;
 dotenv.config();
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.SALT, { expiresIn: maxAge });
+  return jwt.sign({ id }, process.env.SALT);
 };
 
 const handleErrors = (err) => {
@@ -73,7 +73,7 @@ userRouter.post("/signup", async (req, res) => {
       throw new Error("User Exist");
     } else {
       const hashPassword = await bcrypt.hash(password, 10);
-      user = await User.create({ userName, password: hashPassword });
+      const user = await User.create({ userName, password: hashPassword });
       const token = createToken(user._id);
       res.status(201).json({ token });
     }
